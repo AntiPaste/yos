@@ -5,10 +5,6 @@
  */
 package com.yliopisto.yliopistosimulaattori.logiikka;
 
-import com.yliopisto.yliopistosimulaattori.logiikka.Seina;
-import com.yliopisto.yliopistosimulaattori.logiikka.Lattia;
-import com.yliopisto.yliopistosimulaattori.logiikka.Ruutu;
-import com.yliopisto.yliopistosimulaattori.logiikka.Kartta;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -55,6 +51,20 @@ public class KarttaTest {
 		assertEquals(ruutu.getClass(), Lattia.class);
 	}
 	
+	@Test
+	public void testMerkkiRuuduksiMuuttaaObjektin() throws Exception {
+		Ruutu ruutu = this.kartta.merkkiRuuduksi('%');
+		assertEquals(ruutu.getClass(), Objekti.class);
+	}
+	
+	@Test
+	public void testMerkkiRuuduksiMuuttaaPelaajan() throws Exception {
+		this.kartta.setPelaaja(new Pelaaja("Pekka"));
+		
+		Ruutu ruutu = this.kartta.merkkiRuuduksi('@');
+		assertEquals(ruutu.getClass(), Pelaaja.class);
+	}
+	
 	/*
 		Kartan lukemista voidaan testata vertaamalla kartan tulostamaa
 		merkkijonoa, sillä merkkijonon tulostus testataan erikseen.
@@ -86,7 +96,12 @@ public class KarttaTest {
 			".#..#",
 		};
 		
-		this.kartta.lueKartta(yhdenRivinKartta);
+		try {
+			this.kartta.lueKartta(yhdenRivinKartta);
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+		
 		assertEquals(this.kartta.toString(), ".#..#\n");
 	}
 	
@@ -98,7 +113,12 @@ public class KarttaTest {
 			"#####",
 		};
 		
-		this.kartta.lueKartta(useammanRivinKartta);
+		try {
+			this.kartta.lueKartta(useammanRivinKartta);
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+		
 		assertEquals(this.kartta.toString(), "#####\n#...#\n#####\n");
 	}
 
@@ -141,5 +161,48 @@ public class KarttaTest {
 		} catch (Exception e) {
 			assertTrue(e.getMessage().contains("Tuntematon merkki"));
 		}
+	}
+	
+	@Test
+	public void testPelaajanLiikuttaminenTyhjaanOnnistuu() throws Exception {
+		String[] kartta = {
+			"####",
+			"#@.#",
+			"####",
+		};
+		
+		this.kartta.setPelaaja(new Pelaaja("Pekka"));
+		
+		try {
+			this.kartta.lueKartta(kartta);
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+		
+		this.kartta.liikutaPelaajaa(1, 0);
+		
+		assertEquals(this.kartta.toString(), "####\n#.@#\n####\n");
+	}
+	
+	@Test
+	public void testPelaajanLiikuttaminenSeinaanEiOnnistu() throws Exception {
+		String[] kartta = {
+			"###",
+			"#@#",
+			"###",
+		};
+		
+		this.kartta.setPelaaja(new Pelaaja("Pekka"));
+		
+		try {
+			this.kartta.lueKartta(kartta);
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+		
+		this.kartta.liikutaPelaajaa(0, 1);
+		
+		assertEquals(this.kartta.getPelaaja().getX(), 1);
+		assertEquals(this.kartta.getPelaaja().getY(), 1);
 	}
 }

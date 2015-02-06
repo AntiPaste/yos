@@ -1,6 +1,7 @@
 package com.yliopisto.yliopistosimulaattori.logiikka;
 
 public class Kartta {
+	private Pelaaja pelaaja;
 	private Ruutu[][] ruudut;
 	private int leveys = 0;
 	private int korkeus = 0;
@@ -28,6 +29,44 @@ public class Kartta {
 	public void setKorkeus(int korkeus) {
 		this.korkeus = korkeus;
 	}
+
+	public Pelaaja getPelaaja() {
+		return pelaaja;
+	}
+
+	public void setPelaaja(Pelaaja pelaaja) {
+		this.pelaaja = pelaaja;
+	}
+	
+	public Ruutu haeRuutu(int x, int y) {
+		return this.ruudut[x][y];
+	}
+	
+	public void asetaRuutu(Ruutu ruutu, int x, int y) {
+		this.ruudut[x][y] = ruutu;
+	}
+	
+	public boolean liikutaPelaajaa(int dx, int dy) {
+		int x = this.pelaaja.getX();
+		int y = this.pelaaja.getY();
+		
+		Ruutu ruutu = this.haeRuutu(x + dx, y + dy);
+		if (ruutu.getClass() != Lattia.class
+				|| ((Lattia) ruutu).getHahmo() != null
+				|| ((Lattia) ruutu).getObjekti() != null) {
+			return false;
+		}
+		
+		this.pelaaja.setX(x + dx);
+		this.pelaaja.setY(y + dy);
+		
+		Lattia kohde = (Lattia) ruutu;
+		Lattia sijainti = (Lattia) this.haeRuutu(x, y);
+		sijainti.setHahmo(null);
+		kohde.setHahmo(this.pelaaja);
+		
+		return true;
+	}
 	
 	public void lueKartta(String[] kartta) throws Exception {
 		if (kartta == null || kartta.length == 0)
@@ -54,6 +93,17 @@ public class Kartta {
 				if (ruutu == null)
 					throw new Exception("Tuntematon merkki kartassa.");
 				
+				if (ruutu.getClass() == Pelaaja.class) {
+					Lattia lattia = new Lattia();
+					lattia.setHahmo((Hahmo) ruutu);
+					
+					this.pelaaja.setX(x);
+					this.pelaaja.setY(y);
+					
+					this.ruudut[x][y] = lattia;
+					continue;
+				}
+				
 				this.ruudut[x][y] = ruutu;
 			}
 		}
@@ -66,6 +116,12 @@ public class Kartta {
 			
 			case '.':
 				return new Lattia();
+			
+			case '%':
+				return new Objekti();
+			
+			case '@':
+				return this.pelaaja;
 		}
 		
 		return null;
