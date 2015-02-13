@@ -20,3 +20,15 @@
 ### 6.2.2015
 **Aika:** 2 tuntia  
 **Kohde:** Liikkumisen toteutus.
+
+### 8.2.2015
+**Aika:** 2 tuntia  
+**Kohde:** Ovien ja eri tasojen toteutus.
+
+### 11.2.2015
+**Aika:** 3 tuntia  
+**Kohde:** Objektien kanssa interaktiot, modulaarisuus.
+
+### 12.2.2015
+**Aika:** 2 tuntia  
+**Kohde:** JavaDocit, luokkakaavion päivitys.

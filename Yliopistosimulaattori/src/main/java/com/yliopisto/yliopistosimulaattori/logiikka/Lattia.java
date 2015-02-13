@@ -1,5 +1,9 @@
 package com.yliopisto.yliopistosimulaattori.logiikka;
 
+/**
+ *
+ * @author Branch
+ */
 public class Lattia implements Ruutu {
 	private Hahmo hahmo;
 	private Objekti objekti;

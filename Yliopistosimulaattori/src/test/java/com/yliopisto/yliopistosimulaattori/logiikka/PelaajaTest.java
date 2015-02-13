@@ -16,8 +16,8 @@ import static org.junit.Assert.*;
  *
  * @author Branch
  */
-public class RuutuTest {
-	public RuutuTest() {
+public class PelaajaTest {
+	public PelaajaTest() {
 	}
 
 	@BeforeClass
@@ -37,26 +37,17 @@ public class RuutuTest {
 	}
 	
 	@Test
-	public void testOikeaLattianMerkkiJosRuutuOnTyhja() throws Exception {
-		Lattia lattia = new Lattia();
-		assertEquals(lattia.toString(), ".");
-	}
-	
-	@Test
-	public void testOikeaLattianMerkkiJosRuudussaOnHahmo() throws Exception {
-		Lattia lattia = new Lattia();
+	public void testPelaajanNimiAsetetaan() throws Exception {
 		Pelaaja pelaaja = new Pelaaja("Pekka");
-		lattia.setHahmo(pelaaja);
-		
-		assertEquals(lattia.toString(), pelaaja.toString());
+		assertEquals(pelaaja.getNimi(), "Pekka");
 	}
 	
 	@Test
-	public void testOikeaLattianMerkkiJosRuudussaOnObjekti() throws Exception {
-		Lattia lattia = new Lattia();
-		Objekti objekti = new Objekti();
-		lattia.setObjekti(objekti);
+	public void testPelaajanNalanVahentaminenOnnistuu() throws Exception {
+		Pelaaja pelaaja = new Pelaaja("Pekka");
+		int nalka = pelaaja.getNalka();
 		
-		assertEquals(lattia.toString(), objekti.toString());
+		pelaaja.vahennaNalkaa();
+		assertEquals(pelaaja.getNalka(), nalka - 1);
 	}
 }

@@ -52,12 +52,6 @@ public class KarttaTest {
 	}
 	
 	@Test
-	public void testMerkkiRuuduksiMuuttaaObjektin() throws Exception {
-		Ruutu ruutu = this.kartta.merkkiRuuduksi('%');
-		assertEquals(ruutu.getClass(), Objekti.class);
-	}
-	
-	@Test
 	public void testMerkkiRuuduksiMuuttaaPelaajan() throws Exception {
 		this.kartta.setPelaaja(new Pelaaja("Pekka"));
 		
